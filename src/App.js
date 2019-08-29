@@ -3,7 +3,8 @@ import './App.css';
 
 
 import Form from "./components/form";
-import Recipes from './components/Recipes'
+import Recipes from './components/Recipes';
+
 import { async } from 'q';
 
 const API_KEY = "ce64710354910dce2c5326eb60034bfb";
@@ -26,6 +27,18 @@ class App extends React.Component{
     console.log(this.state.recipes);
   };
 
+  componentDidMount = () => {
+    const json = localStorage.getItem("recipes");
+    const recipes = JSON.parse(json);
+    this.setState({ recipes: recipes});
+  }
+
+
+  componentDidUpdate = () => {
+    const recipes = JSON.stringify(this.state.recipes);
+    localStorage.setItem("recipes" , recipes);
+  }
+
 
   render(){
     return(
@@ -37,6 +50,7 @@ class App extends React.Component{
         <Form getRecipe={this.getRecipe}/>
         
         <Recipes recipes={this.state.recipes}/>
+        
       </div>
 
     )
